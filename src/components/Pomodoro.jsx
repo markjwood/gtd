@@ -12,6 +12,7 @@ const DEFAULT_TIMERS = {
 	// sessions between long breaks
 	sessions: 4,
 };
+const ALARM = new Audio('/timesUp.mp3');
 
 export default function Pomodoro() {
 	const [timers, setTimers] = useLocalStorage(LOCALSTORAGE_KEY, DEFAULT_TIMERS);
@@ -23,7 +24,7 @@ export default function Pomodoro() {
 
 	useEffect(() => {
 		if (currentTimer === 'focus') {
-			console.log(sessionCounter);
+			// console.log(sessionCounter);
 			setSessionCounter(c => c - 1);
 		}
 		setTimer(timers[currentTimer]);
@@ -31,8 +32,10 @@ export default function Pomodoro() {
 
 	useEffect(() => {
 		if (secondsLeft === 0) {
-			if (isRunning) getNextTimer();
-			else return () => setCurrentTimer('focus');
+			if (isRunning) {
+				getNextTimer();
+				ALARM.play();
+			} else return () => setCurrentTimer('focus');
 		}
 	}, [secondsLeft]);
 
@@ -48,29 +51,19 @@ export default function Pomodoro() {
 				return 'longBreak';
 			}
 			return 'shortBreak';
-
-			if (sessionCounter >= 0) {
-				setSessionCounter(count => {
-					console.log(count);
-					return count - 1;
-				});
-				return 'shortBreak';
-			}
-
-			setSessionCounter(timers.sessions);
-			return 'longBreak';
 		});
 	}
 
 	function getDisplayTime(seconds) {
-		const hrs = seconds > 3600 ? Math.floor(seconds / 3600) : 0;
+		const hrs = Math.floor(seconds / 3600);
 		const mins = Math.floor(seconds / 60) - hrs * 60;
 		const secs = (seconds % 60).toLocaleString('en-US', {
 			minimumIntegerDigits: 2,
 		});
 
-		return `${hrs > 0 ? hrs + ':' : ''}${
-			hrs > 0
+		return `${hrs >= 1 ? hrs + ':' : ''}${
+			// pad mins to 2 digits only if hours shown
+			hrs >= 1
 				? mins.toLocaleString('en-US', {
 						minimumIntegerDigits: 2,
 				  })
