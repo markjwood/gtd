@@ -1,19 +1,9 @@
-// import { useEffect, useState } from 'react';
 import AddTodoForm from './AddTodoForm';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
 const LOCALSTORAGE_KEY = 'gtd.todos';
 
 export default function TodoList() {
-	// const prevTodos = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)) || [
-	// 	// placeholder todos -- ok to delete
-	// 	{ task: 'do this', id: '111', isComplete: false },
-	// 	{ task: 'do that', id: '222', isComplete: false },
-	// 	{ task: 'go away', id: '333', isComplete: true },
-	// ];
-
-	// const [todos, setTodos] = useState(prevTodos);
-
 	const [todos, setTodos] = useLocalStorage(LOCALSTORAGE_KEY, [
 		// placeholders can be deleted
 		{ task: 'do this', id: '111', isComplete: false },
