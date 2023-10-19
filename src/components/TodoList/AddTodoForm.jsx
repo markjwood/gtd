@@ -11,7 +11,7 @@ export default function AddTodoForm({ setTodos }) {
 		const todo = {
 			task: newTask,
 			id: crypto.randomUUID(),
-			deadline: newDeadline,
+			deadline: newDeadline ?? null,
 			isComplete: false,
 		};
 
