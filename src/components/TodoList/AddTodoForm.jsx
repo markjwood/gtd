@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function AddTodoForm({ setTodos }) {
-	const [newTask, setNewTask] = useState('');
 	const [newDeadline, setNewDeadline] = useState('');
+	const taskRef = useRef();
+
+	useEffect(() => {
+		taskRef.current.focus();
+	}, []);
 
 	function handleSubmit(e) {
 		e.preventDefault();
+		const newTask = taskRef.current.value;
 		if (newTask.trim().length < 1 || !newTask) return;
 
 		const todo = {
@@ -16,7 +21,8 @@ export default function AddTodoForm({ setTodos }) {
 		};
 
 		setTodos(prev => [...prev, todo]);
-		setNewTask('');
+		taskRef.current.value = '';
+		taskRef.current.focus();
 	}
 
 	return (
@@ -30,8 +36,7 @@ export default function AddTodoForm({ setTodos }) {
 						className="p-1 border border-slate-600 rounded"
 						type="text"
 						id="newTask"
-						value={newTask}
-						onChange={e => setNewTask(e.target.value)}
+						ref={taskRef}
 					/>
 				</div>
 				<div className="flex flex-col">
