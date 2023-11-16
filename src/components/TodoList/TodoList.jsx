@@ -51,6 +51,7 @@ export default function TodoList() {
 						>
 							{todo.task}
 						</span>
+						{todo.deadline && <span className="ml-3">{todo.deadline}</span>}
 					</li>
 				))}
 			</ul>
