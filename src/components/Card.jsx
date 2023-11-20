@@ -1,6 +1,6 @@
 export default function Card({ children, title }) {
 	return (
-		<div className="mt-6 bg-white outline-slate-800 rounded-xl shadow grow">
+		<div className="mt-6 bg-white outline-slate-800 rounded-xl shadow grow h-fit">
 			{title && (
 				<h2 className="text-center text-slate-700 bg-sky-100 text-xl font-bold rounded-t-xl">
 					{title}
